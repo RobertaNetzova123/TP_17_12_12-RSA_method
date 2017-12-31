@@ -1,9 +1,9 @@
 require 'prime'
 class RSA
    def initialize n, e, d
-    	@n = n
-	@e = e
-	@d = d
+    	@n = n.to_i
+    	@e = e.to_i
+      	@d = d.to_i
    end
    
    def n
@@ -20,13 +20,16 @@ class RSA
    
    def new_key
      	array = Array.new
-	p = rand(100)
-	q = rand(100)
+	p = rand(1000)
+	q = rand(1000)
 
-	while !Prime.prime?(p) && !Prime.prime?(q)
-		p = rand(100)
-		q = rand(100)
-	end
+
+		while !Prime.prime?(q)
+			q = rand(1000)
+		end
+while !Prime.prime?(p)
+			p = rand(1000)
+		end		
 
 	n = p * q
 	phi = (p -1) * (q -1)
@@ -56,3 +59,12 @@ class RSA
      	return (message.split(",").map {|c| (c.to_i ** @d % @n).chr}).join("")
    end 
 end
+
+
+r = RSA.new(2231, 181, 1021)
+secret = r.encrypt("HEllo")
+#puts "Decrypt"
+msg = r.decrypt(secret)
+
+puts msg
+
